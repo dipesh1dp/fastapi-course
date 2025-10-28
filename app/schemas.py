@@ -17,6 +17,7 @@ class Post(BaseModel):
     content: str 
     published: bool 
     created_at: datetime
+    owner_id: int
 
     # Enable attribute reading from ORM instances
     model_config = ConfigDict(from_attributes=True)
@@ -45,4 +46,4 @@ class Token(BaseModel):
     token_type: str 
 
 class TokenData(BaseModel): 
-    id: Optional[str] = None
+    id: Optional[int] = None
