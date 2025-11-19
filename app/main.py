@@ -1,37 +1,12 @@
-# 8:20:00
-
-from typing import Optional, List
-from fastapi import FastAPI, Response, status, HTTPException, Depends
-from fastapi.params import Body 
-from pydantic import BaseModel
-from random import randrange               
-import time
-from sqlalchemy.orm import Session
-from . import models, schemas, utils
-from .database import engine, SessionLocal, get_db 
+from fastapi import FastAPI
+from . import models
+from .database import engine
 from .routers import post, user, auth
+from .config import settings
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI() 
-
-# --- Old psycopg2 connection code (no longer needed after switching to SQLAlchemy) ---
-# import psycopg2
-# from psycopg2.extras import RealDictCursor  
-
-## Keep trying until database connection is made
-# while True:
-#     try: 
-#         conn = psycopg2.connect(host='localhost', database='fastapi', user='postgres', password='2058', 
-#                                 cursor_factory=RealDictCursor) # returns query results as real Python dictionaries instead of the default tuples.
-#         cursor = conn.cursor() 
-#         print("Database connection was successful!")
-#         break
-#     except Exception as error: 
-#         print("Connecting to database failed") 
-#         print("Error: ", error)
-#         time.sleep(2)
-
 
 app.include_router(post.router)
 app.include_router(user.router) 
